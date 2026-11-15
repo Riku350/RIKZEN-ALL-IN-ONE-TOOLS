@@ -1,0 +1,6 @@
+{
+  "name": "RIKZEN All-in-One Tools",
+  "description": "Everything You Need. One Simple Place. Fast image, PDF, document, QR, and student tools with secure processing.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

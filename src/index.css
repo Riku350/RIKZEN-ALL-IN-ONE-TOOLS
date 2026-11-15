@@ -1,0 +1,101 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-sans: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    --rikzen-gold: #B8911E;
+    --rikzen-gold-bright: #D4AF37;
+    --rikzen-bg: #F4F1EA;
+    --rikzen-surface: #FFFFFF;
+    --rikzen-surface-muted: #ECE8DF;
+    --rikzen-border: #E2DED4;
+  }
+
+  .dark {
+    --rikzen-bg: #090B0E;
+    --rikzen-surface: #12151B;
+    --rikzen-surface-muted: #191D25;
+    --rikzen-border: #232833;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  body {
+    overflow-x: hidden;
+    background-color: var(--rikzen-bg);
+  }
+}
+
+.rikzen-card {
+  box-shadow:
+    0 1px 2px rgba(17, 18, 20, 0.04),
+    0 10px 26px -14px rgba(17, 18, 20, 0.09);
+}
+
+.dark .rikzen-card {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.03) inset,
+    0 12px 28px -16px rgba(0, 0, 0, 0.55);
+}
+
+.rikzen-hero-glow {
+  background-image: radial-gradient(
+    ellipse 70% 55% at 50% 0%,
+    rgba(201, 162, 39, 0.11) 0%,
+    rgba(201, 162, 39, 0.03) 45%,
+    transparent 75%
+  );
+}
+
+.dark .rikzen-hero-glow {
+  background-image: radial-gradient(
+    ellipse 70% 55% at 50% 0%,
+    rgba(212, 175, 55, 0.12) 0%,
+    rgba(212, 175, 55, 0.03) 45%,
+    transparent 75%
+  );
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  header,
+  footer,
+  nav {
+    display: none !important;
+  }
+  body {
+    background: #ffffff !important;
+  }
+}
+

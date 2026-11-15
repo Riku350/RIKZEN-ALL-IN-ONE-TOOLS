@@ -1,0 +1,148 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Authenticated user account and profile preferences",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "email": { "type": "string", "format": "email", "maxLength": 254 },
+        "displayName": { "type": "string", "maxLength": 120 },
+        "photoURL": { "type": "string", "maxLength": 1000 },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "theme": { "type": "string", "enum": ["light", "dark", "system"] },
+        "language": { "type": "string", "enum": ["en", "hi", "hinglish"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role", "theme", "language", "createdAt", "updatedAt"]
+    },
+    "UserFile": {
+      "title": "UserFile",
+      "description": "Metadata for user processed temporary files",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "fileName": { "type": "string", "minLength": 1, "maxLength": 255 },
+        "mimeType": { "type": "string", "maxLength": 120 },
+        "sizeBytes": { "type": "number" },
+        "originalSizeBytes": { "type": "number" },
+        "toolId": { "type": "string", "maxLength": 80 },
+        "category": { "type": "string", "maxLength": 60 },
+        "serverFileId": { "type": "string", "maxLength": 128 },
+        "expiresAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "fileName", "mimeType", "sizeBytes", "toolId", "category", "createdAt"]
+    },
+    "ToolHistory": {
+      "title": "ToolHistory",
+      "description": "User tool execution history log",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "toolId": { "type": "string", "maxLength": 80 },
+        "toolName": { "type": "string", "maxLength": 120 },
+        "category": { "type": "string", "maxLength": 60 },
+        "fileName": { "type": "string", "maxLength": 255 },
+        "inputSizeBytes": { "type": "number" },
+        "outputSizeBytes": { "type": "number" },
+        "status": { "type": "string", "enum": ["completed", "failed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "toolId", "toolName", "category", "status", "createdAt"]
+    },
+    "Favorite": {
+      "title": "Favorite",
+      "description": "User bookmarked favorite tool",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "toolId": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "toolId", "createdAt"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Admin-managed platform announcements",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "title": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "message": { "type": "string", "minLength": 1, "maxLength": 600 },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "message", "active", "createdAt"]
+    },
+    "ToolConfig": {
+      "title": "ToolConfig",
+      "description": "Admin-managed tool overrides and limits",
+      "type": "object",
+      "properties": {
+        "toolId": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "enabled": { "type": "boolean" },
+        "maxFileSizeMb": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["toolId", "enabled", "maxFileSizeMb", "updatedAt"]
+    },
+    "QrCode": {
+      "title": "QrCode",
+      "description": "User-saved QR code configuration, share URL, and media reference",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "userId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "shareId": { "type": "string", "minLength": 8, "maxLength": 64 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 140 },
+        "qrType": { "type": "string", "enum": ["link", "text", "contact", "wifi", "email", "phone", "location", "image", "video", "file"] },
+        "payload": { "type": "string", "maxLength": 4000 },
+        "shareUrl": { "type": "string", "maxLength": 1000 },
+        "mimeType": { "type": "string", "maxLength": 120 },
+        "fileName": { "type": "string", "maxLength": 255 },
+        "sizeBytes": { "type": "number" },
+        "thumbnailUrl": { "type": "string", "maxLength": 1000 },
+        "designJson": { "type": "string", "maxLength": 4000 },
+        "expiresAtMs": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "shareId", "name", "qrType", "payload", "shareUrl", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profile and preference settings"
+    },
+    "/files/{fileId}": {
+      "schema": { "$ref": "#/entities/UserFile" },
+      "description": "Processed file records owned by authenticated user"
+    },
+    "/tool_history/{historyId}": {
+      "schema": { "$ref": "#/entities/ToolHistory" },
+      "description": "Tool execution history owned by authenticated user"
+    },
+    "/favorites/{favoriteId}": {
+      "schema": { "$ref": "#/entities/Favorite" },
+      "description": "User favorite tools"
+    },
+    "/announcements/{announcementId}": {
+      "schema": { "$ref": "#/entities/Announcement" },
+      "description": "Platform announcements managed by admins"
+    },
+    "/tool_configs/{toolId}": {
+      "schema": { "$ref": "#/entities/ToolConfig" },
+      "description": "Tool availability and file size limit overrides managed by admins"
+    },
+    "/qr_codes/{qrId}": {
+      "schema": { "$ref": "#/entities/QrCode" },
+      "description": "Generated QR codes saved by authenticated users"
+    }
+  }
+}
+
